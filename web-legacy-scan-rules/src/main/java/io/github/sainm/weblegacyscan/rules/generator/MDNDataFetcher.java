@@ -77,18 +77,14 @@ public class MDNDataFetcher {
     }
 
     /**
-     * 获取 HTML 废弃元素
+     * 获取 HTML 废弃元素 - 动态从 MDN 获取元素列表
      */
     public List<Map<String, Object>> fetchHTMLDeprecated() {
         List<Map<String, Object>> rules = new ArrayList<>();
         
-        // HTML 元素列表
-        String[] elements = {
-            "font", "center", "marquee", "blink", "frame", "frameset", "noframes",
-            "applet", "acronym", "big", "strike", "tt", "basefont", "dir", "isindex",
-            "listing", "plaintext", "xmp", "nextid", "bgsound", "keygen", "menuitem",
-            "spacer", "multicol", "nobr", "noembed", "rb", "rtc"
-        };
+        // 从 MDN GitHub API 获取 HTML 元素目录
+        List<String> elements = fetchHTMLElementList();
+        System.out.println("  Found " + elements.size() + " HTML elements to check");
         
         for (String element : elements) {
             try {
@@ -111,6 +107,62 @@ public class MDNDataFetcher {
         rules.addAll(fetchHTMLDeprecatedAttributes());
         
         return rules;
+    }
+    
+    /**
+     * 从 MDN GitHub API 获取所有 HTML 元素列表
+     */
+    private List<String> fetchHTMLElementList() {
+        List<String> elements = new ArrayList<>();
+        
+        try {
+            // GitHub API 获取目录内容
+            String apiUrl = "https://api.github.com/repos/mdn/browser-compat-data/contents/html/elements";
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiUrl))
+                .timeout(Duration.ofSeconds(30))
+                .header("Accept", "application/vnd.github.v3+json")
+                .header("User-Agent", "WebLegacyScanner")
+                .GET()
+                .build();
+            
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            if (response.statusCode() == 200) {
+                JsonArray files = JsonParser.parseString(response.body()).getAsJsonArray();
+                for (JsonElement file : files) {
+                    JsonObject fileObj = file.getAsJsonObject();
+                    String name = fileObj.get("name").getAsString();
+                    // 只处理 .json 文件，排除目录和特殊文件
+                    if (name.endsWith(".json") && !name.startsWith("_")) {
+                        String elementName = name.replace(".json", "");
+                        elements.add(elementName);
+                    }
+                }
+                System.out.println("  Fetched " + elements.size() + " elements from MDN GitHub API");
+            } else {
+                System.err.println("  GitHub API returned: " + response.statusCode() + ", using fallback list");
+                elements.addAll(getFallbackHTMLElements());
+            }
+        } catch (Exception e) {
+            System.err.println("  Failed to fetch from GitHub API: " + e.getMessage() + ", using fallback list");
+            elements.addAll(getFallbackHTMLElements());
+        }
+        
+        return elements;
+    }
+    
+    /**
+     * 备用 HTML 元素列表（当 API 不可用时使用）
+     */
+    private List<String> getFallbackHTMLElements() {
+        return List.of(
+            "font", "center", "marquee", "blink", "frame", "frameset", "noframes",
+            "applet", "acronym", "big", "strike", "tt", "basefont", "dir", "isindex",
+            "listing", "plaintext", "xmp", "nextid", "bgsound", "keygen", "menuitem",
+            "spacer", "multicol", "nobr", "noembed", "rb", "rtc", "image", "content",
+            "shadow", "element", "hgroup", "command"
+        );
     }
 
     /**
@@ -142,22 +194,17 @@ public class MDNDataFetcher {
     }
 
     /**
-     * 获取 CSS 废弃属性
+     * 获取 CSS 废弃属性 - 动态从 MDN 获取
      */
     public List<Map<String, Object>> fetchCSSDeprecated() {
         List<Map<String, Object>> rules = new ArrayList<>();
         
-        // 先获取 CSS 属性索引
         try {
-            String indexUrl = BCD_BASE + "css/properties/__meta.json";
-            // 由于没有索引文件，我们检查已知的废弃属性
-            String[] knownDeprecated = {
-                "clip", "zoom", "ime-mode", "azimuth", "box-align", "box-direction",
-                "box-flex", "box-flex-group", "box-lines", "box-ordinal-group",
-                "box-orient", "box-pack", "marker-offset", "page-policy"
-            };
+            // 从 GitHub API 获取 CSS 属性列表
+            List<String> properties = fetchCSSPropertyList();
+            System.out.println("  Found " + properties.size() + " CSS properties to check");
             
-            for (String prop : knownDeprecated) {
+            for (String prop : properties) {
                 try {
                     String url = BCD_BASE + "css/properties/" + prop + ".json";
                     JsonObject data = fetchJson(url);
@@ -183,46 +230,166 @@ public class MDNDataFetcher {
         
         return rules;
     }
+    
+    /**
+     * 从 MDN GitHub API 获取所有 CSS 属性列表
+     */
+    private List<String> fetchCSSPropertyList() {
+        List<String> properties = new ArrayList<>();
+        
+        try {
+            String apiUrl = "https://api.github.com/repos/mdn/browser-compat-data/contents/css/properties";
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiUrl))
+                .timeout(Duration.ofSeconds(30))
+                .header("Accept", "application/vnd.github.v3+json")
+                .header("User-Agent", "WebLegacyScanner")
+                .GET()
+                .build();
+            
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            if (response.statusCode() == 200) {
+                JsonArray files = JsonParser.parseString(response.body()).getAsJsonArray();
+                for (JsonElement file : files) {
+                    JsonObject fileObj = file.getAsJsonObject();
+                    String name = fileObj.get("name").getAsString();
+                    if (name.endsWith(".json") && !name.startsWith("_")) {
+                        String propName = name.replace(".json", "");
+                        properties.add(propName);
+                    }
+                }
+                System.out.println("  Fetched " + properties.size() + " CSS properties from MDN GitHub API");
+            } else {
+                System.err.println("  GitHub API returned: " + response.statusCode() + ", using fallback list");
+                properties.addAll(getFallbackCSSProperties());
+            }
+        } catch (Exception e) {
+            System.err.println("  Failed to fetch from GitHub API: " + e.getMessage() + ", using fallback list");
+            properties.addAll(getFallbackCSSProperties());
+        }
+        
+        return properties;
+    }
+    
+    /**
+     * 备用 CSS 属性列表
+     */
+    private List<String> getFallbackCSSProperties() {
+        return List.of(
+            "clip", "zoom", "ime-mode", "azimuth", "box-align", "box-direction",
+            "box-flex", "box-flex-group", "box-lines", "box-ordinal-group",
+            "box-orient", "box-pack", "marker-offset", "page-policy"
+        );
+    }
 
     /**
-     * 获取 JavaScript 废弃 API
+     * 获取 JavaScript 废弃 API - 动态从 MDN 获取
      */
     public List<Map<String, Object>> fetchJSDeprecated() {
         List<Map<String, Object>> rules = new ArrayList<>();
         
-        // 全局函数
-        String[][] globalFunctions = {
-            {"escape", "javascript/builtins/escape.json"},
-            {"unescape", "javascript/builtins/unescape.json"},
-            {"eval", "javascript/builtins/eval.json"}
-        };
+        // 获取全局函数
+        System.out.println("  Checking global functions...");
+        rules.addAll(fetchJSGlobalFunctions());
         
-        for (String[] func : globalFunctions) {
+        // 获取 String 方法
+        System.out.println("  Checking String methods...");
+        rules.addAll(fetchJSStringMethods());
+        
+        // 获取 Date 方法
+        System.out.println("  Checking Date methods...");
+        rules.addAll(fetchJSDateMethods());
+        
+        // 获取 Document API
+        System.out.println("  Checking Document API...");
+        rules.addAll(fetchDocumentAPIs());
+        
+        // 获取 RegExp 方法
+        System.out.println("  Checking RegExp methods...");
+        rules.addAll(fetchJSRegExpMethods());
+        
+        return rules;
+    }
+    
+    /**
+     * 获取 JS 全局函数
+     */
+    private List<Map<String, Object>> fetchJSGlobalFunctions() {
+        List<Map<String, Object>> rules = new ArrayList<>();
+        List<String> builtins = fetchJSBuiltinsList();
+        
+        for (String func : builtins) {
             try {
-                String url = BCD_BASE + func[1];
+                String url = BCD_BASE + "javascript/builtins/" + func + ".json";
                 JsonObject data = fetchJson(url);
                 
                 if (data != null) {
-                    boolean deprecated = isDeprecated(data, "javascript.builtins." + func[0]);
-                    Map<String, Object> rule = createJSRule(func[0], data, deprecated);
-                    if (rule != null) {
-                        rules.add(rule);
-                        System.out.println("  ✓ " + func[0] + "() - " + (deprecated ? "deprecated" : "discouraged"));
+                    boolean deprecated = isDeprecated(data, "javascript.builtins." + func);
+                    // 只添加废弃的或不推荐的（如 eval）
+                    if (deprecated || func.equals("eval")) {
+                        Map<String, Object> rule = createJSRule(func, data, deprecated);
+                        if (rule != null) {
+                            rules.add(rule);
+                            System.out.println("    ✓ " + func + "() - " + (deprecated ? "deprecated" : "discouraged"));
+                        }
                     }
                 }
             } catch (Exception e) {
                 // 跳过
             }
         }
+        return rules;
+    }
+    
+    /**
+     * 从 GitHub API 获取 JS builtins 列表
+     */
+    private List<String> fetchJSBuiltinsList() {
+        List<String> builtins = new ArrayList<>();
         
-        // String 方法
-        String[] stringMethods = {
-            "substr", "anchor", "big", "blink", "bold", "fixed", 
-            "fontcolor", "fontsize", "italics", "link", "small", 
-            "strike", "sub", "sup"
-        };
+        try {
+            String apiUrl = "https://api.github.com/repos/mdn/browser-compat-data/contents/javascript/builtins";
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiUrl))
+                .timeout(Duration.ofSeconds(30))
+                .header("Accept", "application/vnd.github.v3+json")
+                .header("User-Agent", "WebLegacyScanner")
+                .GET()
+                .build();
+            
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            if (response.statusCode() == 200) {
+                JsonArray files = JsonParser.parseString(response.body()).getAsJsonArray();
+                for (JsonElement file : files) {
+                    JsonObject fileObj = file.getAsJsonObject();
+                    String type = fileObj.get("type").getAsString();
+                    String name = fileObj.get("name").getAsString();
+                    // 只处理 .json 文件（全局函数），不处理目录（对象）
+                    if ("file".equals(type) && name.endsWith(".json") && !name.startsWith("_")) {
+                        String funcName = name.replace(".json", "");
+                        builtins.add(funcName);
+                    }
+                }
+            } else {
+                builtins.addAll(List.of("escape", "unescape", "eval"));
+            }
+        } catch (Exception e) {
+            builtins.addAll(List.of("escape", "unescape", "eval"));
+        }
         
-        for (String method : stringMethods) {
+        return builtins;
+    }
+    
+    /**
+     * 获取 String 方法
+     */
+    private List<Map<String, Object>> fetchJSStringMethods() {
+        List<Map<String, Object>> rules = new ArrayList<>();
+        List<String> methods = fetchObjectMethods("String");
+        
+        for (String method : methods) {
             try {
                 String url = BCD_BASE + "javascript/builtins/String/" + method + ".json";
                 JsonObject data = fetchJson(url);
@@ -231,17 +398,24 @@ public class MDNDataFetcher {
                     Map<String, Object> rule = createJSStringMethodRule(method, data);
                     if (rule != null) {
                         rules.add(rule);
-                        System.out.println("  ✓ String." + method + "() - deprecated");
+                        System.out.println("    ✓ String." + method + "() - deprecated");
                     }
                 }
             } catch (Exception e) {
                 // 跳过
             }
         }
+        return rules;
+    }
+    
+    /**
+     * 获取 Date 方法
+     */
+    private List<Map<String, Object>> fetchJSDateMethods() {
+        List<Map<String, Object>> rules = new ArrayList<>();
+        List<String> methods = fetchObjectMethods("Date");
         
-        // Date 方法
-        String[] dateMethods = {"getYear", "setYear", "toGMTString"};
-        for (String method : dateMethods) {
+        for (String method : methods) {
             try {
                 String url = BCD_BASE + "javascript/builtins/Date/" + method + ".json";
                 JsonObject data = fetchJson(url);
@@ -250,34 +424,157 @@ public class MDNDataFetcher {
                     Map<String, Object> rule = createJSDateMethodRule(method, data);
                     if (rule != null) {
                         rules.add(rule);
-                        System.out.println("  ✓ Date." + method + "() - deprecated");
+                        System.out.println("    ✓ Date." + method + "() - deprecated");
                     }
                 }
             } catch (Exception e) {
                 // 跳过
             }
         }
+        return rules;
+    }
+    
+    /**
+     * 获取 RegExp 方法
+     */
+    private List<Map<String, Object>> fetchJSRegExpMethods() {
+        List<Map<String, Object>> rules = new ArrayList<>();
+        List<String> methods = fetchObjectMethods("RegExp");
         
-        // Document API
-        String[] documentAPIs = {"write", "writeln", "all", "captureEvents", "releaseEvents"};
-        for (String api : documentAPIs) {
+        for (String method : methods) {
+            try {
+                String url = BCD_BASE + "javascript/builtins/RegExp/" + method + ".json";
+                JsonObject data = fetchJson(url);
+                
+                if (data != null && isDeprecated(data, "javascript.builtins.RegExp." + method)) {
+                    Map<String, Object> rule = createJSRegExpMethodRule(method, data);
+                    if (rule != null) {
+                        rules.add(rule);
+                        System.out.println("    ✓ RegExp." + method + "() - deprecated");
+                    }
+                }
+            } catch (Exception e) {
+                // 跳过
+            }
+        }
+        return rules;
+    }
+    
+    /**
+     * 获取 Document API
+     */
+    private List<Map<String, Object>> fetchDocumentAPIs() {
+        List<Map<String, Object>> rules = new ArrayList<>();
+        List<String> apis = fetchAPIList("Document");
+        
+        for (String api : apis) {
             try {
                 String url = BCD_BASE + "api/Document/" + api + ".json";
                 JsonObject data = fetchJson(url);
                 
                 if (data != null) {
-                    Map<String, Object> rule = createDocumentAPIRule(api, data);
-                    if (rule != null) {
-                        rules.add(rule);
-                        System.out.println("  ✓ document." + api + " - deprecated/discouraged");
+                    boolean deprecated = isDeprecated(data, "api.Document." + api);
+                    // 添加废弃的或不推荐的 API
+                    if (deprecated || api.equals("write") || api.equals("writeln") || api.equals("all")) {
+                        Map<String, Object> rule = createDocumentAPIRule(api, data);
+                        if (rule != null) {
+                            rules.add(rule);
+                            System.out.println("    ✓ document." + api + " - " + (deprecated ? "deprecated" : "discouraged"));
+                        }
                     }
                 }
             } catch (Exception e) {
                 // 跳过
             }
         }
-        
         return rules;
+    }
+    
+    /**
+     * 从 GitHub API 获取对象方法列表
+     */
+    private List<String> fetchObjectMethods(String objectName) {
+        List<String> methods = new ArrayList<>();
+        
+        try {
+            String apiUrl = "https://api.github.com/repos/mdn/browser-compat-data/contents/javascript/builtins/" + objectName;
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiUrl))
+                .timeout(Duration.ofSeconds(30))
+                .header("Accept", "application/vnd.github.v3+json")
+                .header("User-Agent", "WebLegacyScanner")
+                .GET()
+                .build();
+            
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            if (response.statusCode() == 200) {
+                JsonArray files = JsonParser.parseString(response.body()).getAsJsonArray();
+                for (JsonElement file : files) {
+                    JsonObject fileObj = file.getAsJsonObject();
+                    String name = fileObj.get("name").getAsString();
+                    if (name.endsWith(".json") && !name.startsWith("_")) {
+                        methods.add(name.replace(".json", ""));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // 返回空列表
+        }
+        
+        return methods;
+    }
+    
+    /**
+     * 从 GitHub API 获取 API 列表
+     */
+    private List<String> fetchAPIList(String apiName) {
+        List<String> apis = new ArrayList<>();
+        
+        try {
+            String apiUrl = "https://api.github.com/repos/mdn/browser-compat-data/contents/api/" + apiName;
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiUrl))
+                .timeout(Duration.ofSeconds(30))
+                .header("Accept", "application/vnd.github.v3+json")
+                .header("User-Agent", "WebLegacyScanner")
+                .GET()
+                .build();
+            
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            if (response.statusCode() == 200) {
+                JsonArray files = JsonParser.parseString(response.body()).getAsJsonArray();
+                for (JsonElement file : files) {
+                    JsonObject fileObj = file.getAsJsonObject();
+                    String name = fileObj.get("name").getAsString();
+                    if (name.endsWith(".json") && !name.startsWith("_")) {
+                        apis.add(name.replace(".json", ""));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // 返回空列表
+        }
+        
+        return apis;
+    }
+    
+    private Map<String, Object> createJSRegExpMethodRule(String method, JsonObject data) {
+        Map<String, Object> rule = new LinkedHashMap<>();
+        rule.put("id", "js-regexp-" + method.toLowerCase());
+        rule.put("category", "js-deprecated-api");
+        rule.put("severity", "WARNING");
+        rule.put("pattern", "." + method + "(");
+        rule.put("description", "RegExp.prototype." + method + "() is deprecated");
+        rule.put("mdnReference", MDN_DOC_BASE + "JavaScript/Reference/Global_Objects/RegExp/" + method);
+        rule.put("enabled", true);
+        rule.put("suggestion", Map.of(
+            "description", "This RegExp method is deprecated",
+            "modernAlternative", "Create new RegExp instead",
+            "codeExample", "new RegExp(pattern, flags)"
+        ));
+        return rule;
     }
 
     /**
