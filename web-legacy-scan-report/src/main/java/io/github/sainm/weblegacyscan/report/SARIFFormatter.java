@@ -6,7 +6,7 @@ import io.github.sainm.weblegacyscan.core.scanner.ScanResult;
 import com.google.gson.*;
 
 /**
- * SARIF 格式报告生成器（用于 IDE 集成�?
+ * SARIF format report generator (for IDE integration).
  */
 public final class SARIFFormatter implements ReportFormatter {
 
@@ -23,14 +23,14 @@ public final class SARIFFormatter implements ReportFormatter {
         JsonArray runs = new JsonArray();
         JsonObject run = new JsonObject();
 
-        // Tool 信息
+        // Tool information
         JsonObject tool = new JsonObject();
         JsonObject driver = new JsonObject();
         driver.addProperty("name", "web-legacy-scan");
         driver.addProperty("version", "1.0.0");
         driver.addProperty("informationUri", "https://github.com/example/web-legacy-scan");
 
-        // 规则定义
+        // Rule definitions
         JsonArray rules = new JsonArray();
         result.issues().stream()
             .map(Issue::ruleId)
@@ -44,7 +44,7 @@ public final class SARIFFormatter implements ReportFormatter {
         tool.add("driver", driver);
         run.add("tool", tool);
 
-        // 结果
+        // Results
         JsonArray results = new JsonArray();
         for (Issue issue : result.getSortedIssues()) {
             results.add(formatResult(issue));
@@ -62,12 +62,12 @@ public final class SARIFFormatter implements ReportFormatter {
         result.addProperty("ruleId", issue.ruleId());
         result.addProperty("level", mapSeverity(issue.severity()));
 
-        // 消息
+        // Message
         JsonObject message = new JsonObject();
         message.addProperty("text", issue.description());
         result.add("message", message);
 
-        // 位置
+        // Location
         JsonArray locations = new JsonArray();
         JsonObject location = new JsonObject();
         JsonObject physicalLocation = new JsonObject();
@@ -93,7 +93,7 @@ public final class SARIFFormatter implements ReportFormatter {
         locations.add(location);
         result.add("locations", locations);
 
-        // 修复建议
+        // Fix suggestion
         if (issue.suggestion() != null) {
             JsonArray fixes = new JsonArray();
             JsonObject fix = new JsonObject();
@@ -104,7 +104,7 @@ public final class SARIFFormatter implements ReportFormatter {
             result.add("fixes", fixes);
         }
 
-        // 帮助链接
+        // Help link
         if (issue.mdnReference() != null) {
             JsonObject help = new JsonObject();
             help.addProperty("text", "See MDN documentation");

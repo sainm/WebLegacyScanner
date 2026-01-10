@@ -7,7 +7,7 @@ import io.github.sainm.weblegacyscan.rules.RuleDefinition;
 import java.util.Optional;
 
 /**
- * JavaScript 废弃语法规则
+ * JavaScript deprecated syntax rule
  */
 public class JSDeprecatedSyntaxRule extends AbstractRule {
 
@@ -24,7 +24,7 @@ public class JSDeprecatedSyntaxRule extends AbstractRule {
         String pattern = definition.pattern();
         if (pattern == null) return Optional.empty();
 
-        // 检�?var 关键�?
+        // Check var keyword
         if (pattern.equals("var") && jsElement.type() == JSElementType.VARIABLE_DECLARATION) {
             String identifier = jsElement.identifier();
             if (identifier != null && identifier.startsWith("var ")) {

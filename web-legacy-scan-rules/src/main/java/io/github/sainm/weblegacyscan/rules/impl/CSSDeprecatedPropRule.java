@@ -7,7 +7,7 @@ import io.github.sainm.weblegacyscan.rules.RuleDefinition;
 import java.util.Optional;
 
 /**
- * CSS 废弃属性规�?
+ * CSS deprecated property rule
  */
 public class CSSDeprecatedPropRule extends AbstractRule {
 

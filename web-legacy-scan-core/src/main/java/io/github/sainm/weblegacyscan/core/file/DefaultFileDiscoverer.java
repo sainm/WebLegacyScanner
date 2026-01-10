@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * 默认文件发现器实�?
+ * Default file discoverer implementation
  */
 public final class DefaultFileDiscoverer implements FileDiscoverer {
 
@@ -49,7 +49,7 @@ public final class DefaultFileDiscoverer implements FileDiscoverer {
                 new SimpleFileVisitor<>() {
                     @Override
                     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-                        // 检测循环符号链�?
+                        // Detect circular symbolic links
                         try {
                             Path realPath = dir.toRealPath();
                             if (!visitedPaths.add(realPath)) {
@@ -59,7 +59,7 @@ public final class DefaultFileDiscoverer implements FileDiscoverer {
                             return FileVisitResult.SKIP_SUBTREE;
                         }
 
-                        // 检查目录是否应该被排除
+                        // Check if directory should be excluded
                         if (shouldExcludeDirectory(dir, root, config, gitignorePatterns, legacyScanIgnorePatterns)) {
                             return FileVisitResult.SKIP_SUBTREE;
                         }
@@ -96,17 +96,17 @@ public final class DefaultFileDiscoverer implements FileDiscoverer {
                                       Set<String> gitignorePatterns, 
                                       Set<String> legacyScanIgnorePatterns,
                                       BasicFileAttributes attrs) {
-        // 检查文件大�?
+        // Check file size
         if (attrs.size() > config.maxFileSizeBytes()) {
             return false;
         }
 
-        // 检查是否为二进制文�?
+        // Check if binary file
         if (isBinaryFile(file)) {
             return false;
         }
 
-        // 检查扩展名
+        // Check extension
         String extension = getExtension(file);
         if (!config.includeExtensions().contains(extension)) {
             return false;
@@ -114,22 +114,22 @@ public final class DefaultFileDiscoverer implements FileDiscoverer {
 
         String relativePath = root.relativize(file).toString().replace('\\', '/');
 
-        // 检�?gitignore 模式
+        // Check gitignore patterns
         if (matchesAnyPattern(relativePath, gitignorePatterns)) {
             return false;
         }
 
-        // 检�?legacyscanignore 模式
+        // Check legacyscanignore patterns
         if (matchesAnyPattern(relativePath, legacyScanIgnorePatterns)) {
             return false;
         }
 
-        // 检查排除模�?
+        // Check exclude patterns
         if (matchesAnyGlob(relativePath, config.excludePatterns())) {
             return false;
         }
 
-        // 检查包含模式（如果指定�?
+        // Check include patterns (if specified)
         if (!config.includePatterns().isEmpty()) {
             return matchesAnyGlob(relativePath, config.includePatterns());
         }
@@ -142,7 +142,7 @@ public final class DefaultFileDiscoverer implements FileDiscoverer {
                                            Set<String> legacyScanIgnorePatterns) {
         String dirName = dir.getFileName().toString();
         
-        // 常见排除目录
+        // Common excluded directories
         if (dirName.equals("node_modules") || dirName.equals(".git") || 
             dirName.equals("vendor") || dirName.equals("dist") ||
             dirName.equals("build") || dirName.equals("target")) {
@@ -204,19 +204,19 @@ public final class DefaultFileDiscoverer implements FileDiscoverer {
     }
 
     private boolean matchesGitignorePattern(String path, String pattern) {
-        // 简化的 gitignore 模式匹配
+        // Simplified gitignore pattern matching
         if (pattern.endsWith("/")) {
-            // 目录模式
+            // Directory pattern
             String dirPattern = pattern.substring(0, pattern.length() - 1);
             return path.startsWith(dirPattern + "/") || path.contains("/" + dirPattern + "/");
         }
         
         if (pattern.contains("/")) {
-            // 路径模式
+            // Path pattern
             return matchesGlob(path, pattern);
         }
         
-        // 文件名模�?
+        // Filename pattern
         String fileName = path.contains("/") ? path.substring(path.lastIndexOf('/') + 1) : path;
         return matchesGlob(fileName, pattern) || matchesGlob(path, "**/" + pattern);
     }
@@ -231,7 +231,7 @@ public final class DefaultFileDiscoverer implements FileDiscoverer {
     }
 
     private boolean matchesGlob(String path, String pattern) {
-        // 转换 glob 模式为正则表达式
+        // Convert glob pattern to regex
         String regex = pattern
             .replace(".", "\\.")
             .replace("**", "§§")

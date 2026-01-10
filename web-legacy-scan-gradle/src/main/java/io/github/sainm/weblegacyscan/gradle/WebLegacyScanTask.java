@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Gradle 扫描任务
+ * Gradle scan task.
  */
 public abstract class WebLegacyScanTask extends DefaultTask {
 
@@ -69,17 +69,17 @@ public abstract class WebLegacyScanTask extends DefaultTask {
 
     @TaskAction
     public void scan() {
-        // 注册解析�?
+        // Register parsers
         ParserFactory.registerParser(new JerichoHTMLParser());
         ParserFactory.registerParser(new PhCSSParser());
         ParserFactory.registerParser(new ClosureJSParser());
 
-        // 创建组件
+        // Create components
         DefaultFileDiscoverer fileDiscoverer = new DefaultFileDiscoverer();
         DefaultRuleEngine ruleEngine = new DefaultRuleEngine();
         Scanner scanner = new DefaultScanner(fileDiscoverer, ruleEngine);
 
-        // 构建过滤配置
+        // Build filter configuration
         FilterConfig.Builder filterBuilder = FilterConfig.builder();
         if (getIncludePatterns().isPresent() && !getIncludePatterns().get().isEmpty()) {
             filterBuilder.includePatterns(getIncludePatterns().get());
@@ -88,7 +88,7 @@ public abstract class WebLegacyScanTask extends DefaultTask {
             filterBuilder.excludePatterns(getExcludePatterns().get());
         }
 
-        // 解析严重级别
+        // Parse severity level
         SeverityLevel minSeverity = SeverityLevel.INFO;
         if (getMinSeverity().isPresent()) {
             try {
@@ -105,7 +105,7 @@ public abstract class WebLegacyScanTask extends DefaultTask {
             }
         }
 
-        // 扫描所有源目录
+        // Scan all source directories
         ScanResult.Builder resultBuilder = ScanResult.builder();
         int totalIssues = 0;
         int totalFiles = 0;
@@ -136,7 +136,7 @@ public abstract class WebLegacyScanTask extends DefaultTask {
 
         ScanResult finalResult = resultBuilder.build();
 
-        // 生成报告
+        // Generate report
         try {
             Path reportDir = getReportDir().get().getAsFile().toPath();
             Files.createDirectories(reportDir);
@@ -172,10 +172,10 @@ public abstract class WebLegacyScanTask extends DefaultTask {
             throw new GradleException("Failed to write report: " + e.getMessage(), e);
         }
 
-        // 输出摘要
+        // Output summary
         getLogger().lifecycle("Scanned {} files, found {} issues", totalFiles, totalIssues);
 
-        // 检查是否需要失败构�?
+        // Check if build should fail
         if (getFailOnError().getOrElse(false) && totalIssues > 0) {
             SeverityLevel effectiveFailOn = failOnSeverity != null ? failOnSeverity : SeverityLevel.WARNING;
             long failCount = finalResult.getIssueCount(effectiveFailOn);

@@ -3,7 +3,7 @@ package io.github.sainm.weblegacyscan.core.model;
 import java.util.Objects;
 
 /**
- * 检测到的问题记�?
+ * Detected issue record
  */
 public record Issue(
     String ruleId,

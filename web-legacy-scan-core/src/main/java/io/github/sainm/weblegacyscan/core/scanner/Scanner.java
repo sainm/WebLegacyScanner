@@ -3,34 +3,34 @@ package io.github.sainm.weblegacyscan.core.scanner;
 import io.github.sainm.weblegacyscan.core.executor.ProgressListener;
 
 /**
- * 扫描器接�?
+ * Scanner interface
  */
 public sealed interface Scanner permits DefaultScanner {
     
     /**
-     * 执行扫描
-     * @param config 扫描配置
-     * @return 扫描结果
+     * Execute scan
+     * @param config scan configuration
+     * @return scan result
      */
     ScanResult scan(ScanConfig config);
 
     /**
-     * 添加进度监听�?
+     * Add a progress listener
      */
     void addProgressListener(ProgressListener listener);
 
     /**
-     * 移除进度监听�?
+     * Remove a progress listener
      */
     void removeProgressListener(ProgressListener listener);
 
     /**
-     * 取消扫描
+     * Cancel scan
      */
     void cancel();
 
     /**
-     * 是否已取�?
+     * Check if cancelled
      */
     boolean isCancelled();
 }

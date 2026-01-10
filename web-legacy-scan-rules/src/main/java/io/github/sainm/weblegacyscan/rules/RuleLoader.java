@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 /**
- * 规则加载�?
+ * Rule loader
  */
 public class RuleLoader {
 
@@ -29,7 +29,7 @@ public class RuleLoader {
             rules.addAll(loadRulesFromFile(rulesFile));
         }
 
-        // 加载替换建议并合�?
+        // Load replacement suggestions and merge
         if (Files.exists(replacementsFile)) {
             Map<String, ReplacementSuggestion> replacements = loadReplacements(replacementsFile);
             rules = mergeReplacements(rules, replacements);

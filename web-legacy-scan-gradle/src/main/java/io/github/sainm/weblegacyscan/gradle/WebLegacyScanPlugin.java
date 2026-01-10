@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Web Legacy Scan Gradle 插件
+ * Web Legacy Scan Gradle plugin.
  */
 public class WebLegacyScanPlugin implements Plugin<Project> {
 
@@ -18,11 +18,11 @@ public class WebLegacyScanPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        // 创建扩展
+        // Create extension
         WebLegacyScanExtension extension = project.getExtensions()
             .create(EXTENSION_NAME, WebLegacyScanExtension.class);
 
-        // 设置默认�?
+        // Set defaults
         extension.getSourceDirs().convention(List.of("src/main/webapp", "src/main/resources/static"));
         extension.getReportDir().convention(project.getLayout().getBuildDirectory().dir("reports/web-legacy-scan"));
         extension.getFailOnError().convention(false);
@@ -32,13 +32,13 @@ public class WebLegacyScanPlugin implements Plugin<Project> {
         extension.getMaxThreads().convention(Runtime.getRuntime().availableProcessors());
         extension.getMinSeverity().convention("INFO");
 
-        // 注册任务
+        // Register task
         TaskProvider<WebLegacyScanTask> scanTask = project.getTasks()
             .register(TASK_NAME, WebLegacyScanTask.class, task -> {
                 task.setGroup("verification");
                 task.setDescription("Scan web files for deprecated HTML, CSS, and JavaScript patterns");
 
-                // 从扩展配置任�?
+                // Configure task from extension
                 task.getSourceDirs().set(extension.getSourceDirs());
                 task.getConfigDir().set(extension.getConfigDir());
                 task.getReportDir().set(extension.getReportDir());
@@ -52,7 +52,7 @@ public class WebLegacyScanPlugin implements Plugin<Project> {
                 task.getMaxThreads().set(extension.getMaxThreads());
             });
 
-        // 如果�?Java 插件，将任务添加�?check 任务
+        // If Java plugin is present, add task to check task
         project.getPlugins().withType(JavaPlugin.class, javaPlugin -> {
             project.getTasks().named("check").configure(check -> {
                 check.dependsOn(scanTask);

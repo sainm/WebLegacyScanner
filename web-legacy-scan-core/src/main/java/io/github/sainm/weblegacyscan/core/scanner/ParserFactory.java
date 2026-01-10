@@ -9,7 +9,7 @@ import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 解析器工�?- 根据文件类型创建对应的解析器
+ * Parser factory - creates parsers based on file type
  */
 public final class ParserFactory {
 
@@ -19,7 +19,7 @@ public final class ParserFactory {
     private ParserFactory() {}
 
     /**
-     * 获取指定文件类型的解析器
+     * Get parser for specified file type
      */
     public static Optional<Parser> getParser(FileType fileType) {
         ensureInitialized();
@@ -27,14 +27,14 @@ public final class ParserFactory {
     }
 
     /**
-     * 注册解析�?
+     * Register a parser
      */
     public static void registerParser(Parser parser) {
         parsers.put(parser.getSupportedType(), parser);
     }
 
     /**
-     * 检查是否支持指定文件类�?
+     * Check if specified file type is supported
      */
     public static boolean isSupported(FileType fileType) {
         ensureInitialized();
@@ -42,12 +42,12 @@ public final class ParserFactory {
     }
 
     /**
-     * 初始化解析器（通过 ServiceLoader 或手动注册）
+     * Initialize parsers (via ServiceLoader or manual registration)
      */
     private static synchronized void ensureInitialized() {
         if (initialized) return;
         
-        // 尝试通过 ServiceLoader 加载解析�?
+        // Try to load parsers via ServiceLoader
         ServiceLoader<Parser> loader = ServiceLoader.load(Parser.class);
         for (Parser parser : loader) {
             parsers.put(parser.getSupportedType(), parser);
@@ -57,7 +57,7 @@ public final class ParserFactory {
     }
 
     /**
-     * 重置工厂（用于测试）
+     * Reset factory (for testing)
      */
     public static synchronized void reset() {
         parsers.clear();

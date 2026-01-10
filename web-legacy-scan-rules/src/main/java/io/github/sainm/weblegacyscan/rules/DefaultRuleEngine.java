@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 /**
- * 默认规则引擎实现
+ * Default rule engine implementation
  */
 public final class DefaultRuleEngine implements RuleEngine {
 
@@ -21,11 +21,11 @@ public final class DefaultRuleEngine implements RuleEngine {
         this.configDir = configDir;
         registry.clear();
 
-        // 加载默认规则
+        // Load default rules
         List<Rule> defaultRules = factory.createDefaultRules();
         registry.registerAll(defaultRules);
 
-        // 加载自定义规则（覆盖默认规则�?
+        // Load custom rules (override default rules)
         if (configDir != null && configDir.toFile().exists()) {
             List<RuleDefinition> customDefinitions = loader.loadRules(configDir);
             for (RuleDefinition def : customDefinitions) {

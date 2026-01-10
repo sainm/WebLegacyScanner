@@ -3,22 +3,22 @@ package io.github.sainm.weblegacyscan.core.executor;
 import java.nio.file.Path;
 
 /**
- * 进度监听器接�?
+ * Progress listener interface
  */
 public interface ProgressListener {
     
     /**
-     * 进度更新
+     * Progress update callback
      */
     void onProgress(ScanProgress progress);
 
     /**
-     * 单个文件扫描完成
+     * Single file scan complete callback
      */
     void onFileComplete(Path file, boolean success);
 
     /**
-     * 扫描完成
+     * Scan complete callback
      */
     void onScanComplete(ScanProgress finalProgress);
 }

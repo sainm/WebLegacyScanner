@@ -5,49 +5,49 @@ import io.github.sainm.weblegacyscan.core.model.*;
 import java.util.Optional;
 
 /**
- * 规则接口（Chain of Responsibility 模式�?
+ * Rule interface (Chain of Responsibility pattern)
  */
 public interface Rule {
     
     /**
-     * 获取规则 ID
+     * Get rule ID
      */
     String getId();
 
     /**
-     * 获取规则分类
+     * Get rule category
      */
     RuleCategory getCategory();
 
     /**
-     * 获取严重级别
+     * Get severity level
      */
     SeverityLevel getSeverity();
 
     /**
-     * 评估代码元素是否违反规则
-     * @param element 代码元素
-     * @return 如果违反规则，返�?Issue；否则返回空
+     * Evaluate if code element violates the rule
+     * @param element code element
+     * @return Issue if rule is violated; otherwise empty
      */
     Optional<Issue> evaluate(CodeElement element);
 
     /**
-     * 获取下一个规则（责任链）
+     * Get next rule (chain of responsibility)
      */
     Optional<Rule> getNext();
 
     /**
-     * 设置下一个规�?
+     * Set next rule
      */
     void setNext(Rule next);
 
     /**
-     * 检查规则是否启�?
+     * Check if rule is enabled
      */
     boolean isEnabled();
 
     /**
-     * 检查规则是否适用于指定文�?
+     * Check if rule applies to specified file
      */
     boolean matchesFile(String filePath);
 }

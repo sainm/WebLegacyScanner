@@ -4,7 +4,7 @@ import io.github.sainm.weblegacyscan.core.model.Issue;
 import io.github.sainm.weblegacyscan.core.scanner.ScanResult;
 
 /**
- * HTML 格式报告生成�?
+ * HTML format report generator.
  */
 public final class HTMLFormatter implements ReportFormatter {
 
@@ -43,7 +43,7 @@ public final class HTMLFormatter implements ReportFormatter {
                 <h1>Web Legacy Scan Report</h1>
             """);
 
-        // 摘要
+        // Summary
         sb.append("<div class=\"summary\">");
         sb.append("<h2>Summary</h2>");
         sb.append("<div class=\"stats\">");
@@ -54,16 +54,16 @@ public final class HTMLFormatter implements ReportFormatter {
             result.statistics().scanTime().toMillis() / 1000.0));
         sb.append("</div>");
 
-        // 按严重级�?
+        // By severity
         sb.append("<h3>By Severity</h3><ul>");
         result.getIssuesBySeverity().forEach((severity, count) -> 
             sb.append(String.format("<li><span class=\"severity %s\">%s</span>: %d</li>",
                 severity.getDisplayName(), severity.getDisplayName(), count)));
         sb.append("</ul></div>");
 
-        // 问题列表
+        // Issues list
         if (result.issues().isEmpty()) {
-            sb.append("<p style=\"color: #28a745; font-size: 1.2em;\">�?No issues found!</p>");
+            sb.append("<p style=\"color: #28a745; font-size: 1.2em;\">✓ No issues found!</p>");
         } else {
             sb.append("<h2>Issues</h2>");
             for (Issue issue : result.getSortedIssues()) {
@@ -80,7 +80,7 @@ public final class HTMLFormatter implements ReportFormatter {
         
         sb.append(String.format("<div class=\"issue %s\">", severityClass));
         
-        // 位置和严重级�?
+        // Location and severity
         sb.append(String.format("<div><span class=\"location\">%s:%d:%d</span> ",
             escapeHtml(issue.location().filePath().toString()),
             issue.location().startLine(),
@@ -89,10 +89,10 @@ public final class HTMLFormatter implements ReportFormatter {
             severityClass, issue.severity().getDisplayName()));
         sb.append(String.format("<code>%s</code></div>", escapeHtml(issue.ruleId())));
 
-        // 描述
+        // Description
         sb.append(String.format("<p>%s</p>", escapeHtml(issue.description())));
 
-        // 代码片段
+        // Code snippet
         if (config.includeSnippets() && issue.location().sourceSnippet() != null) {
             String snippet = issue.location().sourceSnippet();
             if (snippet.length() > 200) {
@@ -101,13 +101,13 @@ public final class HTMLFormatter implements ReportFormatter {
             sb.append(String.format("<pre class=\"snippet\">%s</pre>", escapeHtml(snippet)));
         }
 
-        // 替换建议
+        // Replacement suggestion
         if (issue.suggestion() != null) {
-            sb.append(String.format("<div class=\"suggestion\">�?%s</div>", 
+            sb.append(String.format("<div class=\"suggestion\">✓ %s</div>", 
                 escapeHtml(issue.suggestion().description())));
         }
 
-        // MDN 链接
+        // MDN link
         if (issue.mdnReference() != null) {
             sb.append(String.format("<a class=\"mdn-link\" href=\"%s\" target=\"_blank\">MDN Documentation</a>",
                 escapeHtml(issue.mdnReference())));

@@ -5,7 +5,7 @@ import io.github.sainm.weblegacyscan.core.scanner.ScanResult;
 import com.google.gson.*;
 
 /**
- * JSON 格式报告生成�?
+ * JSON format report generator.
  */
 public final class JSONFormatter implements ReportFormatter {
 
@@ -18,7 +18,7 @@ public final class JSONFormatter implements ReportFormatter {
     public String format(ScanResult result, ReportConfig config) {
         JsonObject root = new JsonObject();
 
-        // 摘要
+        // Summary
         JsonObject summary = new JsonObject();
         summary.addProperty("totalIssues", result.issues().size());
         summary.addProperty("totalFiles", result.statistics().totalFiles());
@@ -26,13 +26,13 @@ public final class JSONFormatter implements ReportFormatter {
         summary.addProperty("scanTimeMs", result.statistics().scanTime().toMillis());
         summary.addProperty("filesPerSecond", result.statistics().filesPerSecond());
 
-        // 按严重级别分�?
+        // By severity
         JsonObject bySeverity = new JsonObject();
         result.getIssuesBySeverity().forEach((severity, count) -> 
             bySeverity.addProperty(severity.getDisplayName(), count));
         summary.add("bySeverity", bySeverity);
 
-        // 按分类分�?
+        // By category
         JsonObject byCategory = new JsonObject();
         result.getIssuesByCategory().forEach((category, count) -> 
             byCategory.addProperty(category.getId(), count));
@@ -40,14 +40,14 @@ public final class JSONFormatter implements ReportFormatter {
 
         root.add("summary", summary);
 
-        // 问题列表
+        // Issues list
         JsonArray issuesArray = new JsonArray();
         for (Issue issue : result.getSortedIssues()) {
             issuesArray.add(formatIssue(issue, config));
         }
         root.add("issues", issuesArray);
 
-        // 所有元素（如果启用�?
+        // All elements (if enabled)
         if (config.outputAllElements() && !result.allElements().isEmpty()) {
             JsonArray elementsArray = new JsonArray();
             for (CodeElement element : result.allElements()) {
@@ -56,7 +56,7 @@ public final class JSONFormatter implements ReportFormatter {
             root.add("elements", elementsArray);
         }
 
-        // 错误
+        // Errors
         if (!result.errors().isEmpty()) {
             JsonArray errorsArray = new JsonArray();
             for (ScanResult.ScanError error : result.errors()) {
@@ -79,7 +79,7 @@ public final class JSONFormatter implements ReportFormatter {
         obj.addProperty("severity", issue.severity().getDisplayName());
         obj.addProperty("description", issue.description());
 
-        // 位置
+        // Location
         JsonObject location = new JsonObject();
         location.addProperty("file", issue.location().filePath().toString());
         location.addProperty("startLine", issue.location().startLine());
@@ -91,7 +91,7 @@ public final class JSONFormatter implements ReportFormatter {
         }
         obj.add("location", location);
 
-        // 替换建议
+        // Replacement suggestion
         if (issue.suggestion() != null) {
             JsonObject suggestion = new JsonObject();
             suggestion.addProperty("description", issue.suggestion().description());

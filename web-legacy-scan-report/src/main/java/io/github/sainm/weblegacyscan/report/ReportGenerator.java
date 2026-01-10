@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.Map;
 
 /**
- * 报告生成�?
+ * Report generator.
  */
 public class ReportGenerator {
 

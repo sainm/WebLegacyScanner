@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * 规则注册�?
+ * Rule registry
  */
 public class RuleRegistry {
 

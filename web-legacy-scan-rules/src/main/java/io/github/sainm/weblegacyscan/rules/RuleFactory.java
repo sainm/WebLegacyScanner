@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 规则工厂
+ * Rule factory
  */
 public class RuleFactory {
 
@@ -25,16 +25,16 @@ public class RuleFactory {
     public List<Rule> createDefaultRules() {
         List<Rule> rules = new ArrayList<>();
         
-        // HTML 废弃标签规则
+        // HTML deprecated tag rules
         rules.addAll(createDefaultHTMLTagRules());
         
-        // HTML 废弃属性规�?
+        // HTML deprecated attribute rules
         rules.addAll(createDefaultHTMLAttrRules());
         
-        // CSS 废弃属性规�?
+        // CSS deprecated property rules
         rules.addAll(createDefaultCSSRules());
         
-        // JS 废弃 API 规则
+        // JS deprecated API rules
         rules.addAll(createDefaultJSRules());
         
         return rules;
@@ -150,7 +150,7 @@ public class RuleFactory {
             rules.add(new JSDeprecatedAPIRule(def));
         }
 
-        // var 关键�?
+        // var keyword
         RuleDefinition varDef = RuleDefinition.builder()
             .id("js-deprecated-syntax-var")
             .category(RuleCategory.JS_DEPRECATED_SYNTAX)

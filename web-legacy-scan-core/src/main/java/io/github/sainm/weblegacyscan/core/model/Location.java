@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 /**
- * 代码元素的精确位置信�?
+ * Precise location information for code elements
  */
 public record Location(
     Path filePath,

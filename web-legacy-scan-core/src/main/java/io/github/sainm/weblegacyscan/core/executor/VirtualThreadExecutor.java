@@ -4,39 +4,39 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
- * 虚拟线程执行器接�?
+ * Virtual thread executor interface
  */
 public sealed interface VirtualThreadExecutor permits DefaultVirtualThreadExecutor {
     
     /**
-     * 并行执行所有任�?
-     * @param tasks 任务列表
-     * @return 结果列表
+     * Execute all tasks in parallel
+     * @param tasks list of tasks
+     * @return list of results
      */
     <T> List<T> executeAll(List<Callable<T>> tasks);
 
     /**
-     * 关闭执行�?
+     * Shutdown the executor
      */
     void shutdown();
 
     /**
-     * 添加进度监听�?
+     * Add a progress listener
      */
     void addProgressListener(ProgressListener listener);
 
     /**
-     * 移除进度监听�?
+     * Remove a progress listener
      */
     void removeProgressListener(ProgressListener listener);
 
     /**
-     * 取消执行
+     * Cancel execution
      */
     void cancel();
 
     /**
-     * 是否已取�?
+     * Check if cancelled
      */
     boolean isCancelled();
 }

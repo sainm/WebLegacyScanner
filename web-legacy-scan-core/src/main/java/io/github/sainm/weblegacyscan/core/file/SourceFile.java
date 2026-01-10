@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 /**
- * 源文件信�?
+ * Source file information
  */
 public record SourceFile(
     Path path,

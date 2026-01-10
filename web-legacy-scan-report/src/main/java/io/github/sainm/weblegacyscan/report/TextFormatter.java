@@ -5,11 +5,11 @@ import io.github.sainm.weblegacyscan.core.model.SeverityLevel;
 import io.github.sainm.weblegacyscan.core.scanner.ScanResult;
 
 /**
- * 文本格式报告生成�?
+ * Text format report generator.
  */
 public final class TextFormatter implements ReportFormatter {
 
-    // ANSI 颜色代码
+    // ANSI color codes
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
     private static final String YELLOW = "\u001B[33m";
@@ -26,22 +26,22 @@ public final class TextFormatter implements ReportFormatter {
             return formatQuiet(result, color);
         }
 
-        // 标题
+        // Title
         sb.append(color ? BOLD : "").append("Web Legacy Scan Report")
           .append(color ? RESET : "").append("\n");
         sb.append("=".repeat(50)).append("\n\n");
 
         if (result.issues().isEmpty()) {
-            sb.append(color ? GREEN : "").append("�?No issues found!")
+            sb.append(color ? GREEN : "").append("✓ No issues found!")
               .append(color ? RESET : "").append("\n");
         } else {
-            // 问题列表
+            // Issues list
             for (Issue issue : result.getSortedIssues()) {
                 formatIssue(sb, issue, config);
             }
         }
 
-        // 摘要
+        // Summary
         sb.append("\n").append("-".repeat(50)).append("\n");
         sb.append(color ? BOLD : "").append("Summary")
           .append(color ? RESET : "").append("\n");
@@ -55,7 +55,7 @@ public final class TextFormatter implements ReportFormatter {
             result.statistics().filesPerSecond()));
         sb.append(String.format("  Total issues: %d%n", result.issues().size()));
 
-        // 按严重级�?
+        // By severity
         result.getIssuesBySeverity().forEach((severity, count) -> {
             String severityColor = getSeverityColor(severity, color);
             sb.append(String.format("    %s%s%s: %d%n", 
@@ -63,7 +63,7 @@ public final class TextFormatter implements ReportFormatter {
                 color ? RESET : "", count));
         });
 
-        // 错误
+        // Errors
         if (!result.errors().isEmpty()) {
             sb.append("\n").append(color ? RED : "").append("Errors:")
               .append(color ? RESET : "").append("\n");
@@ -79,28 +79,28 @@ public final class TextFormatter implements ReportFormatter {
         boolean color = config.colorOutput();
         String severityColor = getSeverityColor(issue.severity(), color);
 
-        // 位置
+        // Location
         sb.append(String.format("%s:%d:%d: ", 
             issue.location().filePath(),
             issue.location().startLine(),
             issue.location().startColumn()));
 
-        // 严重级别
+        // Severity
         sb.append(severityColor)
           .append(issue.severity().getDisplayName())
           .append(color ? RESET : "")
           .append(" ");
 
-        // 规则 ID
+        // Rule ID
         sb.append(color ? CYAN : "")
           .append("[").append(issue.ruleId()).append("]")
           .append(color ? RESET : "")
           .append(" ");
 
-        // 描述
+        // Description
         sb.append(issue.description()).append("\n");
 
-        // 代码片段
+        // Code snippet
         if (config.includeSnippets() && issue.location().sourceSnippet() != null) {
             String snippet = issue.location().sourceSnippet();
             if (snippet.length() > 100) {
@@ -109,14 +109,14 @@ public final class TextFormatter implements ReportFormatter {
             sb.append("    ").append(snippet.replace("\n", " ")).append("\n");
         }
 
-        // 替换建议
+        // Replacement suggestion
         if (issue.suggestion() != null) {
             sb.append(color ? GREEN : "")
-              .append("    �?").append(issue.suggestion().description())
+              .append("    ✓ ").append(issue.suggestion().description())
               .append(color ? RESET : "").append("\n");
         }
 
-        // MDN 链接
+        // MDN link
         if (issue.mdnReference() != null) {
             sb.append("    See: ").append(issue.mdnReference()).append("\n");
         }
@@ -132,7 +132,7 @@ public final class TextFormatter implements ReportFormatter {
         long infos = result.issues().size() - errors - warnings;
 
         if (result.issues().isEmpty()) {
-            sb.append(color ? GREEN : "").append("�?No issues")
+            sb.append(color ? GREEN : "").append("✓ No issues")
               .append(color ? RESET : "");
         } else {
             sb.append(String.format("%d issues: ", result.issues().size()));

@@ -8,25 +8,25 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * 规则评估器接�?- 用于 Scanner 与规则引擎的解�?
+ * Rule evaluator interface - decouples Scanner from rule engine
  */
 public interface RuleEvaluator {
     
     /**
-     * 从配置目录加载规�?
+     * Load rules from configuration directory
      */
     void loadRules(Path configDir) throws IOException;
 
     /**
-     * 评估代码元素
-     * @param element 代码元素
-     * @param filePath 文件路径（用于规则匹配）
-     * @return 检测到的问题列�?
+     * Evaluate code element
+     * @param element code element
+     * @param filePath file path (for rule matching)
+     * @return list of detected issues
      */
     List<Issue> evaluate(CodeElement element, String filePath);
 
     /**
-     * 评估多个代码元素
+     * Evaluate multiple code elements
      */
     default List<Issue> evaluateAll(List<CodeElement> elements, String filePath) {
         return elements.stream()

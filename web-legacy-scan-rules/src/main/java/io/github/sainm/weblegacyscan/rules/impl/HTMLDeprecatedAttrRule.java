@@ -7,7 +7,7 @@ import io.github.sainm.weblegacyscan.rules.RuleDefinition;
 import java.util.Optional;
 
 /**
- * HTML 废弃属性规�?
+ * HTML deprecated attribute rule
  */
 public class HTMLDeprecatedAttrRule extends AbstractRule {
 

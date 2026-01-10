@@ -18,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 默认扫描器实�?- Facade 模式
+ * Default scanner implementation - Facade pattern
  */
 public final class DefaultScanner implements Scanner {
 
@@ -70,7 +70,7 @@ public final class DefaultScanner implements Scanner {
                 .build();
         }
 
-        // 创建执行�?
+        // Create executor
         VirtualThreadExecutor exec = executor != null 
             ? executor 
             : new DefaultVirtualThreadExecutor(config.maxConcurrency());
@@ -101,7 +101,7 @@ public final class DefaultScanner implements Scanner {
         List<Issue> issues = new ArrayList<>();
         List<ParseError> errors = new ArrayList<>();
 
-        // 获取解析�?
+        // Get parser
         Optional<Parser> parserOpt = ParserFactory.getParser(file.type());
         if (parserOpt.isEmpty()) {
             return new FileScanResult(file, List.of(), List.of(), List.of(), false);
@@ -110,7 +110,7 @@ public final class DefaultScanner implements Scanner {
         Parser parser = parserOpt.get();
 
         try {
-            // 检测编�?
+            // Detect encoding
             Charset encoding = detectEncoding(file, config.defaultEncoding());
             SourceFile fileWithEncoding = SourceFile.of(file.path(), file.type(), encoding, file.size());
 
@@ -119,7 +119,7 @@ public final class DefaultScanner implements Scanner {
             elements.addAll(parseResult.elements());
             errors.addAll(parseResult.errors());
 
-            // strict 模式下，解析错误导致失败
+            // In strict mode, parse errors cause failure
             if (config.strictMode() && parseResult.hasFatalErrors()) {
                 return new FileScanResult(file, elements, issues, errors, false);
             }
@@ -144,7 +144,7 @@ public final class DefaultScanner implements Scanner {
         try {
             byte[] bytes = Files.readAllBytes(file.path());
             
-            // 检�?BOM
+            // Check BOM
             if (bytes.length >= 3 && bytes[0] == (byte) 0xEF && 
                 bytes[1] == (byte) 0xBB && bytes[2] == (byte) 0xBF) {
                 return java.nio.charset.StandardCharsets.UTF_8;
@@ -228,7 +228,7 @@ public final class DefaultScanner implements Scanner {
     }
 
     /**
-     * 单文件扫描结�?
+     * Single file scan result
      */
     private record FileScanResult(
         SourceFile file,

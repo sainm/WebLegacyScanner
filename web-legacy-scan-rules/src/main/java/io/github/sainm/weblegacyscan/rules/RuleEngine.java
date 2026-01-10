@@ -8,48 +8,48 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * 规则引擎接口
+ * Rule engine interface
  */
 public sealed interface RuleEngine extends RuleEvaluator permits DefaultRuleEngine {
     
     /**
-     * 从配置目录加载规�?
+     * Load rules from configuration directory
      */
     @Override
     void loadRules(Path configDir) throws IOException;
 
     /**
-     * 重新加载规则
+     * Reload rules
      */
     void reloadRules() throws IOException;
 
     /**
-     * 评估代码元素
-     * @param element 代码元素
-     * @param filePath 文件路径（用于规则匹配）
-     * @return 检测到的问题列�?
+     * Evaluate code element
+     * @param element code element
+     * @param filePath file path (for rule matching)
+     * @return list of detected issues
      */
     @Override
     List<Issue> evaluate(CodeElement element, String filePath);
 
     /**
-     * 评估多个代码元素
+     * Evaluate multiple code elements
      */
     @Override
     List<Issue> evaluateAll(List<CodeElement> elements, String filePath);
 
     /**
-     * 获取指定分类的规�?
+     * Get rules by category
      */
     List<Rule> getRulesByCategory(RuleCategory category);
 
     /**
-     * 获取所有规�?
+     * Get all rules
      */
     List<Rule> getAllRules();
 
     /**
-     * 获取规则注册�?
+     * Get rule registry
      */
     RuleRegistry getRegistry();
 }

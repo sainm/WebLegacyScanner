@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
- * Web Legacy Scan CLI 主入�?
+ * Web Legacy Scan CLI main entry point.
  */
 @Command(
     name = "web-legacy-scan",
@@ -100,28 +100,28 @@ public class WebLegacyScanCLI implements Callable<Integer> {
     }
 
     private Integer runScan() throws IOException {
-        // 验证目标路径
+        // Validate target path
         if (!Files.exists(targetPath)) {
             System.err.println("Error: Target path does not exist: " + targetPath);
             return 2;
         }
 
-        // 注册解析�?
+        // Register parsers
         ParserFactory.registerParser(new JerichoHTMLParser());
         ParserFactory.registerParser(new PhCSSParser());
         ParserFactory.registerParser(new ClosureJSParser());
 
-        // 创建组件
+        // Create components
         DefaultFileDiscoverer fileDiscoverer = new DefaultFileDiscoverer();
         RuleEngine ruleEngine = new DefaultRuleEngine();
         Scanner scanner = new DefaultScanner(fileDiscoverer, ruleEngine);
 
-        // 添加进度监听
+        // Add progress listener
         if (!noProgress && !quiet) {
             scanner.addProgressListener(new ConsoleProgressListener());
         }
 
-        // 构建过滤配置
+        // Build filter configuration
         FilterConfig.Builder filterBuilder = FilterConfig.builder();
         if (includePatterns != null) {
             filterBuilder.includePatterns(includePatterns);
@@ -130,7 +130,7 @@ public class WebLegacyScanCLI implements Callable<Integer> {
             filterBuilder.excludePatterns(excludePatterns);
         }
 
-        // 构建扫描配置
+        // Build scan configuration
         ScanConfig config = ScanConfig.builder()
             .targetPath(targetPath)
             .configDir(configDir)
@@ -142,14 +142,14 @@ public class WebLegacyScanCLI implements Callable<Integer> {
             .showProgress(!noProgress)
             .build();
 
-        // 执行扫描
+        // Execute scan
         if (!quiet) {
             System.out.println("Scanning: " + targetPath);
         }
 
         ScanResult result = scanner.scan(config);
 
-        // 生成报告
+        // Generate report
         ReportConfig reportConfig = ReportConfig.builder()
             .format(format)
             .outputPath(outputPath)
@@ -161,7 +161,7 @@ public class WebLegacyScanCLI implements Callable<Integer> {
         ReportGenerator generator = new ReportGenerator();
         String report = generator.generate(result, reportConfig);
 
-        // 输出报告
+        // Output report
         if (outputPath != null) {
             Files.writeString(outputPath, report);
             if (!quiet) {
@@ -171,7 +171,7 @@ public class WebLegacyScanCLI implements Callable<Integer> {
             System.out.println(report);
         }
 
-        // 确定退出码
+        // Determine exit code
         return determineExitCode(result);
     }
 
@@ -272,7 +272,7 @@ public class WebLegacyScanCLI implements Callable<Integer> {
     }
 
     /**
-     * 控制台进度监听器
+     * Console progress listener.
      */
     private static class ConsoleProgressListener implements ProgressListener {
         @Override
@@ -284,7 +284,7 @@ public class WebLegacyScanCLI implements Callable<Integer> {
 
         @Override
         public void onFileComplete(java.nio.file.Path file, boolean success) {
-            // 不输出单个文件完成信�?
+            // Do not output individual file completion info
         }
 
         @Override

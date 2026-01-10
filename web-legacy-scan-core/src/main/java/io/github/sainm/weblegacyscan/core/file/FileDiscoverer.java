@@ -4,20 +4,20 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 /**
- * 文件发现器接�?
+ * File discoverer interface
  */
 public sealed interface FileDiscoverer permits DefaultFileDiscoverer {
     
     /**
-     * 发现指定路径下的所有匹配文�?
-     * @param root 根路径（文件或目录）
-     * @param config 过滤配置
-     * @return 匹配的源文件�?
+     * Discover all matching files under the specified path
+     * @param root root path (file or directory)
+     * @param config filter configuration
+     * @return stream of matching source files
      */
     Stream<SourceFile> discover(Path root, FilterConfig config);
     
     /**
-     * 使用默认配置发现文件
+     * Discover files using default configuration
      */
     default Stream<SourceFile> discover(Path root) {
         return discover(root, FilterConfig.defaults());

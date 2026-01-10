@@ -7,7 +7,7 @@ import io.github.sainm.weblegacyscan.rules.RuleDefinition;
 import java.util.Optional;
 
 /**
- * JavaScript 废弃 API 规则
+ * JavaScript deprecated API rule
  */
 public class JSDeprecatedAPIRule extends AbstractRule {
 
@@ -30,7 +30,7 @@ public class JSDeprecatedAPIRule extends AbstractRule {
         String pattern = definition.pattern();
 
         if (pattern != null && identifier != null) {
-            // 检查完全匹配或�?pattern 结尾（如 document.write�?
+            // Check exact match or ends with pattern (e.g., document.write)
             if (identifier.equals(pattern) || identifier.endsWith("." + pattern)) {
                 Location location = jsElement.identifierLocation() != null 
                     ? jsElement.identifierLocation() 
