@@ -1,0 +1,158 @@
+{
+  "rules": [
+    {
+      "id": "css-clip-prop",
+      "category": "css-deprecated-prop",
+      "severity": "WARNING",
+      "pattern": "clip",
+      "description": "The clip property is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/CSS/clip",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use clip-path instead",
+        "modernAlternative": "clip-path property",
+        "codeExample": "clip-path: inset(10px 20px 30px 40px);"
+      }
+    },
+    {
+      "id": "css-zoom-prop",
+      "category": "css-deprecated-prop",
+      "severity": "WARNING",
+      "pattern": "zoom",
+      "description": "The zoom property is non-standard",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/CSS/zoom",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use transform: scale() instead",
+        "modernAlternative": "transform: scale()",
+        "codeExample": "transform: scale(1.5);"
+      }
+    },
+    {
+      "id": "css-behavior-prop",
+      "category": "css-deprecated-prop",
+      "severity": "ERROR",
+      "pattern": "behavior",
+      "description": "The behavior property is IE-specific and obsolete",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use JavaScript for dynamic behaviors",
+        "modernAlternative": "JavaScript event handlers",
+        "codeExample": "element.addEventListener('click', handler);"
+      }
+    },
+    {
+      "id": "css-expression-value",
+      "category": "css-deprecated-prop",
+      "severity": "ERROR",
+      "pattern": "expression(",
+      "description": "CSS expressions are IE-specific and obsolete",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use JavaScript for dynamic values",
+        "modernAlternative": "JavaScript or CSS custom properties",
+        "codeExample": "Use CSS variables: var(--my-value)"
+      }
+    },
+    {
+      "id": "css-webkit-prefix",
+      "category": "css-vendor-prefix",
+      "severity": "INFO",
+      "pattern": "-webkit-",
+      "description": "WebKit vendor prefix detected",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix",
+      "enabled": true,
+      "suggestion": {
+        "description": "Consider adding the standard property alongside the prefixed version",
+        "modernAlternative": "Standard CSS property without prefix",
+        "codeExample": "-webkit-transform: rotate(45deg);\ntransform: rotate(45deg);"
+      }
+    },
+    {
+      "id": "css-moz-prefix",
+      "category": "css-vendor-prefix",
+      "severity": "INFO",
+      "pattern": "-moz-",
+      "description": "Mozilla vendor prefix detected",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix",
+      "enabled": true,
+      "suggestion": {
+        "description": "Consider adding the standard property alongside the prefixed version",
+        "modernAlternative": "Standard CSS property without prefix",
+        "codeExample": "-moz-transform: rotate(45deg);\ntransform: rotate(45deg);"
+      }
+    },
+    {
+      "id": "css-ms-prefix",
+      "category": "css-vendor-prefix",
+      "severity": "INFO",
+      "pattern": "-ms-",
+      "description": "Microsoft vendor prefix detected",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix",
+      "enabled": true,
+      "suggestion": {
+        "description": "Consider adding the standard property alongside the prefixed version",
+        "modernAlternative": "Standard CSS property without prefix",
+        "codeExample": "-ms-transform: rotate(45deg);\ntransform: rotate(45deg);"
+      }
+    },
+    {
+      "id": "css-o-prefix",
+      "category": "css-vendor-prefix",
+      "severity": "INFO",
+      "pattern": "-o-",
+      "description": "Opera vendor prefix detected",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix",
+      "enabled": true,
+      "suggestion": {
+        "description": "Consider adding the standard property alongside the prefixed version",
+        "modernAlternative": "Standard CSS property without prefix",
+        "codeExample": "-o-transform: rotate(45deg);\ntransform: rotate(45deg);"
+      }
+    },
+    {
+      "id": "css-webkit-box-orient",
+      "category": "css-deprecated-prop",
+      "severity": "WARNING",
+      "pattern": "-webkit-box-orient",
+      "description": "Old flexbox syntax is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use modern flexbox syntax",
+        "modernAlternative": "flex-direction property",
+        "codeExample": "display: flex;\nflex-direction: column;"
+      }
+    },
+    {
+      "id": "css-webkit-box-pack",
+      "category": "css-deprecated-prop",
+      "severity": "WARNING",
+      "pattern": "-webkit-box-pack",
+      "description": "Old flexbox syntax is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use modern flexbox syntax",
+        "modernAlternative": "justify-content property",
+        "codeExample": "display: flex;\njustify-content: center;"
+      }
+    },
+    {
+      "id": "css-webkit-box-align",
+      "category": "css-deprecated-prop",
+      "severity": "WARNING",
+      "pattern": "-webkit-box-align",
+      "description": "Old flexbox syntax is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use modern flexbox syntax",
+        "modernAlternative": "align-items property",
+        "codeExample": "display: flex;\nalign-items: center;"
+      }
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "replacements": {
+    "font": {
+      "description": "Use CSS font properties instead of <font> tag",
+      "modernAlternative": "CSS font-family, font-size, color",
+      "codeExample": "<span style=\"font-family: Arial; font-size: 14px; color: #333;\">Text</span>"
+    },
+    "center": {
+      "description": "Use CSS for centering content",
+      "modernAlternative": "CSS text-align: center, flexbox, or grid",
+      "codeExample": "<div style=\"display: flex; justify-content: center;\">Centered</div>"
+    },
+    "marquee": {
+      "description": "Use CSS animations for scrolling effects",
+      "modernAlternative": "CSS @keyframes animation",
+      "codeExample": "@keyframes scroll { from { transform: translateX(100%); } to { transform: translateX(-100%); } }"
+    },
+    "blink": {
+      "description": "Use CSS animations for blinking effects (if really needed)",
+      "modernAlternative": "CSS @keyframes with opacity",
+      "codeExample": "@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }"
+    },
+    "frame": {
+      "description": "Use <iframe> or modern layout techniques",
+      "modernAlternative": "<iframe> or CSS Grid/Flexbox",
+      "codeExample": "<iframe src=\"content.html\" title=\"Content frame\"></iframe>"
+    },
+    "frameset": {
+      "description": "Use CSS Grid or Flexbox for page layouts",
+      "modernAlternative": "CSS Grid or Flexbox",
+      "codeExample": "<div style=\"display: grid; grid-template-columns: 200px 1fr;\">...</div>"
+    },
+    "applet": {
+      "description": "Java Applets are obsolete - use modern web technologies",
+      "modernAlternative": "JavaScript, WebAssembly, Canvas, WebGL",
+      "codeExample": "<canvas id=\"myCanvas\"></canvas> with JavaScript"
+    },
+    "acronym": {
+      "description": "Use <abbr> tag for abbreviations",
+      "modernAlternative": "<abbr> element",
+      "codeExample": "<abbr title=\"HyperText Markup Language\">HTML</abbr>"
+    },
+    "big": {
+      "description": "Use CSS font-size for larger text",
+      "modernAlternative": "CSS font-size: larger or specific size",
+      "codeExample": "<span style=\"font-size: 1.2em;\">Larger text</span>"
+    },
+    "strike": {
+      "description": "Use <del>, <s>, or CSS for strikethrough",
+      "modernAlternative": "<del> for deleted text, <s> for no longer relevant, or CSS",
+      "codeExample": "<del>Deleted</del> or <span style=\"text-decoration: line-through;\">Strikethrough</span>"
+    },
+    "tt": {
+      "description": "Use semantic elements or CSS for monospace text",
+      "modernAlternative": "<code>, <kbd>, <samp>, or CSS font-family: monospace",
+      "codeExample": "<code>console.log('Hello');</code>"
+    },
+    "basefont": {
+      "description": "Use CSS to set default font styles",
+      "modernAlternative": "CSS on body or :root",
+      "codeExample": "body { font-family: 'Segoe UI', sans-serif; font-size: 16px; }"
+    },
+    "dir": {
+      "description": "Use <ul> for unordered lists",
+      "modernAlternative": "<ul> element",
+      "codeExample": "<ul><li>Item 1</li><li>Item 2</li></ul>"
+    },
+    "align": {
+      "description": "Use CSS for alignment",
+      "modernAlternative": "CSS text-align, vertical-align, flexbox, or grid",
+      "codeExample": "<div style=\"text-align: center;\">Centered text</div>"
+    },
+    "bgcolor": {
+      "description": "Use CSS background-color property",
+      "modernAlternative": "CSS background-color",
+      "codeExample": "<div style=\"background-color: #f0f0f0;\">Content</div>"
+    },
+    "border": {
+      "description": "Use CSS border property",
+      "modernAlternative": "CSS border",
+      "codeExample": "<img style=\"border: 2px solid #ccc;\" src=\"image.jpg\" alt=\"Image\">"
+    },
+    "clip": {
+      "description": "Use CSS clip-path for clipping",
+      "modernAlternative": "CSS clip-path",
+      "codeExample": "clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);"
+    },
+    "zoom": {
+      "description": "Use CSS transform: scale() for zooming",
+      "modernAlternative": "CSS transform: scale()",
+      "codeExample": "transform: scale(1.5); transform-origin: top left;"
+    },
+    "behavior": {
+      "description": "Use JavaScript for dynamic behaviors",
+      "modernAlternative": "JavaScript event handlers and DOM manipulation",
+      "codeExample": "element.addEventListener('click', () => { /* behavior */ });"
+    },
+    "-webkit-": {
+      "description": "Add standard property alongside vendor prefix",
+      "modernAlternative": "Standard CSS property",
+      "codeExample": "-webkit-transform: rotate(45deg);\ntransform: rotate(45deg);"
+    },
+    "-moz-": {
+      "description": "Add standard property alongside vendor prefix",
+      "modernAlternative": "Standard CSS property",
+      "codeExample": "-moz-transform: rotate(45deg);\ntransform: rotate(45deg);"
+    },
+    "-ms-": {
+      "description": "Add standard property alongside vendor prefix",
+      "modernAlternative": "Standard CSS property",
+      "codeExample": "-ms-transform: rotate(45deg);\ntransform: rotate(45deg);"
+    },
+    "-o-": {
+      "description": "Add standard property alongside vendor prefix",
+      "modernAlternative": "Standard CSS property",
+      "codeExample": "-o-transform: rotate(45deg);\ntransform: rotate(45deg);"
+    },
+    "escape": {
+      "description": "Use encodeURIComponent() for URL encoding",
+      "modernAlternative": "encodeURIComponent() or encodeURI()",
+      "codeExample": "const encoded = encodeURIComponent(userInput);"
+    },
+    "unescape": {
+      "description": "Use decodeURIComponent() for URL decoding",
+      "modernAlternative": "decodeURIComponent() or decodeURI()",
+      "codeExample": "const decoded = decodeURIComponent(encodedString);"
+    },
+    "document.write": {
+      "description": "Use DOM manipulation methods",
+      "modernAlternative": "createElement(), appendChild(), innerHTML, textContent",
+      "codeExample": "const div = document.createElement('div');\ndiv.textContent = 'Hello';\ndocument.body.appendChild(div);"
+    },
+    "document.writeln": {
+      "description": "Use DOM manipulation methods",
+      "modernAlternative": "createElement(), appendChild(), innerHTML",
+      "codeExample": "element.innerHTML = 'Content<br>';"
+    },
+    "document.all": {
+      "description": "Use standard DOM selection methods",
+      "modernAlternative": "getElementById(), querySelector(), querySelectorAll()",
+      "codeExample": "const element = document.getElementById('myId');\nconst elements = document.querySelectorAll('.myClass');"
+    },
+    "document.layers": {
+      "description": "Use standard DOM methods (Netscape 4 API is obsolete)",
+      "modernAlternative": "getElementById(), querySelector()",
+      "codeExample": "const layer = document.getElementById('layerId');"
+    },
+    "eval": {
+      "description": "Avoid eval() - it's a security risk",
+      "modernAlternative": "JSON.parse() for JSON, specific parsers for other formats",
+      "codeExample": "const data = JSON.parse(jsonString);"
+    },
+    "with": {
+      "description": "Use explicit property access or destructuring",
+      "modernAlternative": "Destructuring or explicit object.property access",
+      "codeExample": "const { name, age } = person;\nconsole.log(name, age);"
+    },
+    "var": {
+      "description": "Use let or const for block-scoped variables",
+      "modernAlternative": "let for reassignable, const for constants",
+      "codeExample": "const MAX_SIZE = 100;\nlet counter = 0;"
+    },
+    "substr": {
+      "description": "Use substring() or slice() instead",
+      "modernAlternative": "String.prototype.substring() or slice()",
+      "codeExample": "str.substring(0, 5) // first 5 characters\nstr.slice(-3) // last 3 characters"
+    },
+    "arguments": {
+      "description": "Use rest parameters for variable arguments",
+      "modernAlternative": "Rest parameters (...args)",
+      "codeExample": "function sum(...numbers) {\n  return numbers.reduce((a, b) => a + b, 0);\n}"
+    },
+    "XMLHttpRequest": {
+      "description": "Use fetch() API for HTTP requests",
+      "modernAlternative": "fetch() with async/await",
+      "codeExample": "const response = await fetch(url);\nconst data = await response.json();"
+    },
+    "onclick": {
+      "description": "Use addEventListener() for event handling",
+      "modernAlternative": "element.addEventListener('click', handler)",
+      "codeExample": "button.addEventListener('click', (e) => {\n  console.log('Clicked!');\n});"
+    },
+    "onload": {
+      "description": "Use addEventListener() for load events",
+      "modernAlternative": "addEventListener('load', handler) or DOMContentLoaded",
+      "codeExample": "document.addEventListener('DOMContentLoaded', () => {\n  // DOM is ready\n});"
+    }
+  }
+}

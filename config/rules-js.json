@@ -1,0 +1,214 @@
+{
+  "rules": [
+    {
+      "id": "js-escape-func",
+      "category": "js-deprecated-api",
+      "severity": "WARNING",
+      "pattern": "escape",
+      "description": "escape() is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/escape",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use encodeURIComponent() or encodeURI() instead",
+        "modernAlternative": "encodeURIComponent() or encodeURI()",
+        "codeExample": "encodeURIComponent(str)"
+      }
+    },
+    {
+      "id": "js-unescape-func",
+      "category": "js-deprecated-api",
+      "severity": "WARNING",
+      "pattern": "unescape",
+      "description": "unescape() is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/unescape",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use decodeURIComponent() or decodeURI() instead",
+        "modernAlternative": "decodeURIComponent() or decodeURI()",
+        "codeExample": "decodeURIComponent(str)"
+      }
+    },
+    {
+      "id": "js-document-write",
+      "category": "js-deprecated-api",
+      "severity": "WARNING",
+      "pattern": "document.write",
+      "description": "document.write() is discouraged",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/API/Document/write",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use DOM manipulation methods instead",
+        "modernAlternative": "document.createElement(), element.innerHTML, element.textContent",
+        "codeExample": "document.body.appendChild(document.createElement('div'));"
+      }
+    },
+    {
+      "id": "js-document-writeln",
+      "category": "js-deprecated-api",
+      "severity": "WARNING",
+      "pattern": "document.writeln",
+      "description": "document.writeln() is discouraged",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/API/Document/writeln",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use DOM manipulation methods instead",
+        "modernAlternative": "document.createElement(), element.innerHTML",
+        "codeExample": "element.innerHTML = 'content';"
+      }
+    },
+    {
+      "id": "js-document-all",
+      "category": "js-deprecated-api",
+      "severity": "ERROR",
+      "pattern": "document.all",
+      "description": "document.all is non-standard and deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/API/Document/all",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use standard DOM methods",
+        "modernAlternative": "document.getElementById(), document.querySelector(), document.querySelectorAll()",
+        "codeExample": "document.getElementById('myId')"
+      }
+    },
+    {
+      "id": "js-document-layers",
+      "category": "js-deprecated-api",
+      "severity": "ERROR",
+      "pattern": "document.layers",
+      "description": "document.layers is obsolete (Netscape 4 only)",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/API/Document",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use standard DOM methods",
+        "modernAlternative": "document.getElementById(), document.querySelector()",
+        "codeExample": "document.getElementById('layerId')"
+      }
+    },
+    {
+      "id": "js-eval-func",
+      "category": "js-deprecated-api",
+      "severity": "WARNING",
+      "pattern": "eval",
+      "description": "eval() is dangerous and should be avoided",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval",
+      "enabled": true,
+      "suggestion": {
+        "description": "Avoid eval() - use safer alternatives",
+        "modernAlternative": "JSON.parse() for JSON, Function constructor if absolutely necessary",
+        "codeExample": "JSON.parse(jsonString)"
+      }
+    },
+    {
+      "id": "js-with-statement",
+      "category": "js-deprecated-syntax",
+      "severity": "ERROR",
+      "pattern": "with",
+      "description": "The with statement is deprecated and forbidden in strict mode",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use explicit object references or destructuring",
+        "modernAlternative": "Destructuring assignment or explicit property access",
+        "codeExample": "const { prop1, prop2 } = obj;"
+      }
+    },
+    {
+      "id": "js-var-keyword",
+      "category": "js-deprecated-syntax",
+      "severity": "INFO",
+      "pattern": "var",
+      "description": "var has function scope - consider using let or const",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use let for variables that change, const for constants",
+        "modernAlternative": "let or const",
+        "codeExample": "const PI = 3.14;\nlet count = 0;"
+      }
+    },
+    {
+      "id": "js-substr-method",
+      "category": "js-deprecated-api",
+      "severity": "WARNING",
+      "pattern": "substr",
+      "description": "String.prototype.substr() is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use substring() or slice() instead",
+        "modernAlternative": "String.prototype.substring() or String.prototype.slice()",
+        "codeExample": "str.substring(start, end) or str.slice(start, end)"
+      }
+    },
+    {
+      "id": "js-arguments-object",
+      "category": "js-deprecated-syntax",
+      "severity": "INFO",
+      "pattern": "arguments",
+      "description": "The arguments object is discouraged in modern JavaScript",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use rest parameters instead",
+        "modernAlternative": "Rest parameters (...args)",
+        "codeExample": "function myFunc(...args) { console.log(args); }"
+      }
+    },
+    {
+      "id": "js-sync-xhr",
+      "category": "js-deprecated-api",
+      "severity": "WARNING",
+      "pattern": "XMLHttpRequest",
+      "description": "Synchronous XMLHttpRequest is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use fetch() API or async XMLHttpRequest",
+        "modernAlternative": "fetch() API with async/await",
+        "codeExample": "const response = await fetch(url);\nconst data = await response.json();"
+      }
+    },
+    {
+      "id": "js-onclick-attr",
+      "category": "js-deprecated-syntax",
+      "severity": "INFO",
+      "pattern": "onclick",
+      "description": "Inline event handlers are discouraged",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use addEventListener() instead",
+        "modernAlternative": "element.addEventListener('click', handler)",
+        "codeExample": "element.addEventListener('click', function(e) { /* handler */ });"
+      }
+    },
+    {
+      "id": "js-onload-attr",
+      "category": "js-deprecated-syntax",
+      "severity": "INFO",
+      "pattern": "onload",
+      "description": "Inline event handlers are discouraged",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use addEventListener() instead",
+        "modernAlternative": "window.addEventListener('load', handler)",
+        "codeExample": "window.addEventListener('load', function() { /* handler */ });"
+      }
+    },
+    {
+      "id": "js-getattribute-event",
+      "category": "js-deprecated-api",
+      "severity": "INFO",
+      "pattern": "getAttribute('onclick')",
+      "description": "Getting event handler attributes is discouraged",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use addEventListener() for event handling",
+        "modernAlternative": "addEventListener() and removeEventListener()",
+        "codeExample": "element.addEventListener('click', handler);"
+      }
+    }
+  ]
+}

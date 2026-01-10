@@ -1,0 +1,271 @@
+{
+  "rules": [
+    {
+      "id": "html-font-tag",
+      "category": "html-deprecated-tag",
+      "severity": "WARNING",
+      "pattern": "font",
+      "description": "The <font> tag is deprecated in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/font",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use CSS font properties instead",
+        "modernAlternative": "CSS font-family, font-size, color properties",
+        "codeExample": "<span style=\"font-family: Arial; font-size: 14px; color: red;\">Text</span>"
+      }
+    },
+    {
+      "id": "html-center-tag",
+      "category": "html-deprecated-tag",
+      "severity": "WARNING",
+      "pattern": "center",
+      "description": "The <center> tag is deprecated in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/center",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use CSS text-align or flexbox for centering",
+        "modernAlternative": "CSS text-align: center or display: flex with justify-content: center",
+        "codeExample": "<div style=\"text-align: center;\">Centered content</div>"
+      }
+    },
+    {
+      "id": "html-marquee-tag",
+      "category": "html-deprecated-tag",
+      "severity": "WARNING",
+      "pattern": "marquee",
+      "description": "The <marquee> tag is deprecated and non-standard",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/marquee",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use CSS animations instead",
+        "modernAlternative": "CSS @keyframes animation",
+        "codeExample": "<div class=\"scroll-text\">Text</div> with CSS animation"
+      }
+    },
+    {
+      "id": "html-blink-tag",
+      "category": "html-deprecated-tag",
+      "severity": "ERROR",
+      "pattern": "blink",
+      "description": "The <blink> tag is obsolete and not supported",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blink",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use CSS animations if blinking effect is needed",
+        "modernAlternative": "CSS animation with opacity",
+        "codeExample": "@keyframes blink { 50% { opacity: 0; } }"
+      }
+    },
+    {
+      "id": "html-frame-tag",
+      "category": "html-deprecated-tag",
+      "severity": "ERROR",
+      "pattern": "frame",
+      "description": "The <frame> tag is deprecated in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frame",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use <iframe> or modern layout techniques",
+        "modernAlternative": "<iframe> element or CSS Grid/Flexbox layouts",
+        "codeExample": "<iframe src=\"page.html\"></iframe>"
+      }
+    },
+    {
+      "id": "html-frameset-tag",
+      "category": "html-deprecated-tag",
+      "severity": "ERROR",
+      "pattern": "frameset",
+      "description": "The <frameset> tag is deprecated in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frameset",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use modern CSS layout techniques",
+        "modernAlternative": "CSS Grid or Flexbox for page layouts",
+        "codeExample": "<div class=\"grid-container\">...</div>"
+      }
+    },
+    {
+      "id": "html-noframes-tag",
+      "category": "html-deprecated-tag",
+      "severity": "WARNING",
+      "pattern": "noframes",
+      "description": "The <noframes> tag is deprecated in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noframes",
+      "enabled": true,
+      "suggestion": {
+        "description": "Remove this tag as frames are no longer used",
+        "modernAlternative": "Not needed with modern layouts",
+        "codeExample": "Simply remove the <noframes> element"
+      }
+    },
+    {
+      "id": "html-applet-tag",
+      "category": "html-deprecated-tag",
+      "severity": "ERROR",
+      "pattern": "applet",
+      "description": "The <applet> tag is obsolete (Java Applets are deprecated)",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/applet",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use modern web technologies instead of Java Applets",
+        "modernAlternative": "JavaScript, WebAssembly, or <object>/<embed> for plugins",
+        "codeExample": "Use JavaScript or WebAssembly for interactive content"
+      }
+    },
+    {
+      "id": "html-acronym-tag",
+      "category": "html-deprecated-tag",
+      "severity": "WARNING",
+      "pattern": "acronym",
+      "description": "The <acronym> tag is deprecated in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/acronym",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use <abbr> tag instead",
+        "modernAlternative": "<abbr> element",
+        "codeExample": "<abbr title=\"HyperText Markup Language\">HTML</abbr>"
+      }
+    },
+    {
+      "id": "html-big-tag",
+      "category": "html-deprecated-tag",
+      "severity": "WARNING",
+      "pattern": "big",
+      "description": "The <big> tag is deprecated in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/big",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use CSS font-size instead",
+        "modernAlternative": "CSS font-size property",
+        "codeExample": "<span style=\"font-size: larger;\">Text</span>"
+      }
+    },
+    {
+      "id": "html-strike-tag",
+      "category": "html-deprecated-tag",
+      "severity": "WARNING",
+      "pattern": "strike",
+      "description": "The <strike> tag is deprecated in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strike",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use <del> or <s> tag, or CSS text-decoration",
+        "modernAlternative": "<del>, <s>, or CSS text-decoration: line-through",
+        "codeExample": "<del>Deleted text</del> or <s>Strikethrough</s>"
+      }
+    },
+    {
+      "id": "html-tt-tag",
+      "category": "html-deprecated-tag",
+      "severity": "WARNING",
+      "pattern": "tt",
+      "description": "The <tt> tag is deprecated in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tt",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use <code>, <kbd>, <samp>, or CSS font-family",
+        "modernAlternative": "<code>, <kbd>, <samp>, or CSS font-family: monospace",
+        "codeExample": "<code>monospace text</code>"
+      }
+    },
+    {
+      "id": "html-basefont-tag",
+      "category": "html-deprecated-tag",
+      "severity": "ERROR",
+      "pattern": "basefont",
+      "description": "The <basefont> tag is obsolete in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/basefont",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use CSS to set default font styles",
+        "modernAlternative": "CSS body { font-family: ...; font-size: ...; }",
+        "codeExample": "body { font-family: Arial, sans-serif; font-size: 16px; }"
+      }
+    },
+    {
+      "id": "html-dir-tag",
+      "category": "html-deprecated-tag",
+      "severity": "WARNING",
+      "pattern": "dir",
+      "description": "The <dir> tag is deprecated in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dir",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use <ul> tag instead",
+        "modernAlternative": "<ul> element",
+        "codeExample": "<ul><li>Item 1</li><li>Item 2</li></ul>"
+      }
+    },
+    {
+      "id": "html-align-attr",
+      "category": "html-deprecated-attr",
+      "severity": "WARNING",
+      "pattern": "align",
+      "description": "The align attribute is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use CSS text-align or vertical-align instead",
+        "modernAlternative": "CSS text-align, vertical-align, or flexbox",
+        "codeExample": "<div style=\"text-align: center;\">Content</div>"
+      }
+    },
+    {
+      "id": "html-bgcolor-attr",
+      "category": "html-deprecated-attr",
+      "severity": "WARNING",
+      "pattern": "bgcolor",
+      "description": "The bgcolor attribute is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use CSS background-color instead",
+        "modernAlternative": "CSS background-color property",
+        "codeExample": "<div style=\"background-color: #fff;\">Content</div>"
+      }
+    },
+    {
+      "id": "html-border-attr",
+      "category": "html-deprecated-attr",
+      "severity": "INFO",
+      "pattern": "border",
+      "description": "The border attribute is deprecated on most elements",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes",
+      "enabled": true,
+      "filePatterns": ["**/*.html", "**/*.htm"],
+      "suggestion": {
+        "description": "Use CSS border property instead",
+        "modernAlternative": "CSS border property",
+        "codeExample": "<img style=\"border: 1px solid black;\" src=\"image.jpg\">"
+      }
+    },
+    {
+      "id": "html-language-attr",
+      "category": "html-deprecated-attr",
+      "severity": "INFO",
+      "pattern": "language",
+      "description": "The language attribute on <script> is deprecated",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script",
+      "enabled": true,
+      "suggestion": {
+        "description": "Use type attribute or omit it (JavaScript is default)",
+        "modernAlternative": "type=\"text/javascript\" or omit entirely",
+        "codeExample": "<script>/* JavaScript is default */</script>"
+      }
+    },
+    {
+      "id": "html-type-text-javascript",
+      "category": "html-deprecated-attr",
+      "severity": "INFO",
+      "pattern": "type=\"text/javascript\"",
+      "description": "type=\"text/javascript\" is unnecessary in HTML5",
+      "mdnReference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script",
+      "enabled": true,
+      "suggestion": {
+        "description": "Remove the type attribute as JavaScript is the default",
+        "modernAlternative": "Omit the type attribute",
+        "codeExample": "<script src=\"app.js\"></script>"
+      }
+    }
+  ]
+}
