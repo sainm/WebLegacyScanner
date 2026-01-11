@@ -3,10 +3,11 @@ package io.github.sainm.weblegacyscan.report;
 import java.nio.file.Path;
 
 /**
- * 报告配置
+ * Report configuration
  */
 public record ReportConfig(
     OutputFormat format,
+    ReportType reportType,
     Path outputPath,
     boolean includeSnippets,
     boolean colorOutput,
@@ -15,6 +16,7 @@ public record ReportConfig(
 ) {
     public ReportConfig {
         format = format != null ? format : OutputFormat.TEXT;
+        reportType = reportType != null ? reportType : ReportType.DEPRECATED;
     }
 
     public static Builder builder() {
@@ -23,6 +25,7 @@ public record ReportConfig(
 
     public static class Builder {
         private OutputFormat format = OutputFormat.TEXT;
+        private ReportType reportType = ReportType.DEPRECATED;
         private Path outputPath;
         private boolean includeSnippets = true;
         private boolean colorOutput = true;
@@ -31,6 +34,11 @@ public record ReportConfig(
 
         public Builder format(OutputFormat format) {
             this.format = format;
+            return this;
+        }
+
+        public Builder reportType(ReportType type) {
+            this.reportType = type;
             return this;
         }
 
@@ -54,19 +62,14 @@ public record ReportConfig(
             return this;
         }
 
-        public Builder outputAllElements(boolean output) {
-            this.outputAllElements = output;
-            return this;
-        }
-
-        public Builder includeAllElements(boolean include) {
-            this.outputAllElements = include;
+        public Builder outputAllElements(boolean outputAll) {
+            this.outputAllElements = outputAll;
             return this;
         }
 
         public ReportConfig build() {
-            return new ReportConfig(format, outputPath, includeSnippets, 
-                                   colorOutput, quietMode, outputAllElements);
+            return new ReportConfig(format, reportType, outputPath, 
+                                   includeSnippets, colorOutput, quietMode, outputAllElements);
         }
     }
 }

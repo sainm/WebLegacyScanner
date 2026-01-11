@@ -6,7 +6,7 @@ import io.github.sainm.weblegacyscan.core.scanner.ScanResult;
  * Report formatter interface.
  */
 public sealed interface ReportFormatter 
-    permits JSONFormatter, TextFormatter, HTMLFormatter, SARIFFormatter {
+    permits JSONFormatter, TextFormatter, HTMLFormatter, SARIFFormatter, CSVFormatter {
     
     /**
      * Format scan result.

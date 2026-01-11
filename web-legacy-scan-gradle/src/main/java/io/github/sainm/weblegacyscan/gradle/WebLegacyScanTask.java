@@ -151,7 +151,6 @@ public abstract class WebLegacyScanTask extends DefaultTask {
 
             ReportConfig reportConfig = ReportConfig.builder()
                 .format(format)
-                .includeAllElements(getOutputAllElements().getOrElse(false))
                 .build();
 
             ReportGenerator generator = new ReportGenerator();

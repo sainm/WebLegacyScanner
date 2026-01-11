@@ -1,13 +1,14 @@
 package io.github.sainm.weblegacyscan.report;
 
 /**
- * 输出格式
+ * Output format
  */
 public enum OutputFormat {
     JSON("json"),
     TEXT("text"),
     HTML("html"),
-    SARIF("sarif");
+    SARIF("sarif"),
+    CSV("csv");
 
     private final String name;
 
@@ -25,6 +26,7 @@ public enum OutputFormat {
             case "json" -> JSON;
             case "html" -> HTML;
             case "sarif" -> SARIF;
+            case "csv" -> CSV;
             default -> TEXT;
         };
     }

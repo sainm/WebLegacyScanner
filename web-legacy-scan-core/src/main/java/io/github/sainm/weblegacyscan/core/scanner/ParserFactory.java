@@ -27,10 +27,12 @@ public final class ParserFactory {
     }
 
     /**
-     * Register a parser
+     * Register a parser for all its supported types
      */
     public static void registerParser(Parser parser) {
-        parsers.put(parser.getSupportedType(), parser);
+        for (FileType type : parser.getSupportedTypes()) {
+            parsers.put(type, parser);
+        }
     }
 
     /**
@@ -50,7 +52,10 @@ public final class ParserFactory {
         // Try to load parsers via ServiceLoader
         ServiceLoader<Parser> loader = ServiceLoader.load(Parser.class);
         for (Parser parser : loader) {
-            parsers.put(parser.getSupportedType(), parser);
+            // Register for all supported types
+            for (FileType type : parser.getSupportedTypes()) {
+                parsers.put(type, parser);
+            }
         }
         
         initialized = true;

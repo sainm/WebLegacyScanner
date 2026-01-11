@@ -3,6 +3,8 @@ package io.github.sainm.weblegacyscan.core.parser;
 import io.github.sainm.weblegacyscan.core.file.FileType;
 import io.github.sainm.weblegacyscan.core.file.SourceFile;
 
+import java.util.Set;
+
 /**
  * Parser interface
  */
@@ -24,7 +26,14 @@ public interface Parser {
     ParseResult parseContent(String content, SourceFile file);
 
     /**
-     * Get supported file type
+     * Get primary supported file type
      */
     FileType getSupportedType();
+
+    /**
+     * Get all supported file types (default returns only primary type)
+     */
+    default Set<FileType> getSupportedTypes() {
+        return Set.of(getSupportedType());
+    }
 }

@@ -4,7 +4,8 @@ plugins {
 
 dependencies {
     api(project(":web-legacy-scan-core"))
-    implementation("net.htmlparser.jericho:jericho-html:3.4")
+    api("net.htmlparser.jericho:jericho-html:3.4")
+    api("com.helger:ph-css:7.0.2")
     
     // Property-based testing with jqwik
     testImplementation("net.jqwik:jqwik:1.8.2")

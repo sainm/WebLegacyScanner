@@ -4,8 +4,7 @@ plugins {
 }
 
 application {
-    mainClass.set("com.example.weblegacyscan.cli.WebLegacyScanCLI")
-    applicationDefaultJvmArgs = listOf("--enable-preview")
+    mainClass.set("io.github.sainm.weblegacyscan.cli.ScannerMain")
 }
 
 dependencies {
@@ -15,5 +14,4 @@ dependencies {
     implementation(project(":web-legacy-scan-parser-html"))
     implementation(project(":web-legacy-scan-parser-css"))
     implementation(project(":web-legacy-scan-parser-js"))
-    implementation("info.picocli:picocli:4.7.5")
 }

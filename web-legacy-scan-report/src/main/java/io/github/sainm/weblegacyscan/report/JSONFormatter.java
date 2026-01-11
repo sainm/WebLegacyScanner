@@ -47,7 +47,7 @@ public final class JSONFormatter implements ReportFormatter {
         }
         root.add("issues", issuesArray);
 
-        // All elements (if enabled)
+        // All elements (if outputAllElements is enabled)
         if (config.outputAllElements() && !result.allElements().isEmpty()) {
             JsonArray elementsArray = new JsonArray();
             for (CodeElement element : result.allElements()) {
